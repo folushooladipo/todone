@@ -1,5 +1,5 @@
-app: metagram-todo-app
-service: metagram-todo-app
+app: todone
+service: todone
 
 plugins:
   - serverless-webpack
@@ -24,7 +24,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    IMAGE_ATTACHMENTS_BUCKET: metagram-todo-app-images-${self:provider.stage}
+    IMAGE_ATTACHMENTS_BUCKET: todone-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -61,6 +61,10 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
 
   # TODO: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
@@ -162,15 +166,14 @@ resources:
         TableName: ${self:provider.environment.TODOS_TABLE}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          - AttributeName: todoId
+          - AttributeName: authorId
             KeyType: HASH
-          # TODO: Or just use createdAt and get rid of all indices?
-          - AttributeName: dueDate
+          - AttributeName: todoId
             KeyType: RANGE
         AttributeDefinitions:
-          - AttributeName: todoId
+          - AttributeName: authorId
             AttributeType: S
-          - AttributeName: dueDate
+          - AttributeName: todoId
             AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
@@ -179,7 +182,7 @@ resources:
             Projection:
               ProjectionType: ALL
             KeySchema:
-            - AttributeName: todoId
+            - AttributeName: authorId
               KeyType: HASH
             - AttributeName: createdAt
               KeyType: RANGE

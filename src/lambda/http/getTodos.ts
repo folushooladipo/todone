@@ -9,16 +9,18 @@ import { getUserId } from '../utils'
 
 const docClient = new DynamoDB.DocumentClient()
 const todosTable = process.env.TODOS_TABLE
+const createdAtIndex = process.env.TODOS_CREATED_AT_INDEX
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const userId = getUserId(event)
     const { Items: todos } = await docClient.query({
-      TableName : todosTable,
-      KeyConditionExpression: 'authoredBy = :authoredBy',
+      TableName: todosTable,
+      IndexName: createdAtIndex,
+      KeyConditionExpression: 'authorId = :authorId',
       ExpressionAttributeValues: {
-          ':authoredBy': userId
+        ':authorId': userId
       }
-  }).promise()
+    }).promise()
 
     /*
     MY PLAN:
