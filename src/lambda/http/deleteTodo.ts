@@ -17,6 +17,7 @@ export const handler = middy(
     - If it was found BUT the user making the request wasn't the one that created it, return a 403 saying "Error. You cannot delete this todo."
     - Else, delete the todo and return { message: `Todo deleted successfully.` }.
     */
+   // TODO: does deleting an item in an index delete the item in the main table?
 
     return {
       statusCode: 200,

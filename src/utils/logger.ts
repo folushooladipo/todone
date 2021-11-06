@@ -5,6 +5,7 @@ import * as winston from 'winston'
  *
  * @param loggerName - a name of a logger that will be added to all messages
  */
+// TODO: use this to replace all console.log()'s in the project.
 export function createLogger(loggerName: string) {
   return winston.createLogger({
     level: 'info',
