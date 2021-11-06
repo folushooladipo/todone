@@ -1,10 +1,11 @@
-import { JwtPayload } from './JwtPayload'
 import { JwtHeader } from 'jsonwebtoken'
+
+import { CustomJwtPayload } from './CustomJwtPayload'
 
 /**
  * Interface representing a JWT token
  */
 export interface Jwt {
   header: JwtHeader
-  payload: JwtPayload
+  payload: CustomJwtPayload
 }

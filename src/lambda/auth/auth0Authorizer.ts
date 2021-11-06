@@ -5,7 +5,7 @@ import { verify } from 'jsonwebtoken'
 
 import { createLogger } from '../../utils/logger'
 // import { Jwt } from '../../auth/Jwt'
-import { JwtPayload } from '../../auth/JwtPayload'
+import { CustomJwtPayload } from '../../auth/CustomJwtPayload'
 
 const logger = createLogger('auth')
 
@@ -74,15 +74,15 @@ export const handler = async (
   }
 }
 
-// TODO: async function verifyToken(authHeader: string): Promise<JwtPayload> {
-function verifyToken(authHeader: string): JwtPayload {
+// TODO: async function verifyToken(authHeader: string): Promise<CustomJwtPayload> {
+function verifyToken(authHeader: string): CustomJwtPayload {
   const token = getTokenFromAuthHeader(authHeader)
   // const jwt: Jwt = decode(token, { complete: true }) as Jwt
 
   // TODO: Implement token verification
   // You should implement it similarly to how it was implemented for the exercise for the lesson 5
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
-  return verify(token, signingCert, { algorithms: ["RS256"] }) as JwtPayload
+  return verify(token, signingCert, { algorithms: ["RS256"] }) as CustomJwtPayload
 }
 
 function getTokenFromAuthHeader(authHeader: string): string {

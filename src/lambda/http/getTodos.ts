@@ -1,17 +1,24 @@
 import 'source-map-support/register'
 
+import { DynamoDB } from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
-// import { getTodosForUser } from '../../businessLogic/todos'
-// import { getUserId } from '../utils'
+import { getUserId } from '../utils'
 
-// TODO: Get all TODO items for a current user
+const docClient = new DynamoDB.DocumentClient()
+const todosTable = process.env.TODOS_TABLE
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    // Write your code here
-    // const todos = '...'
+    const userId = getUserId(event)
+    const { Items: todos } = await docClient.query({
+      TableName : todosTable,
+      KeyConditionExpression: 'authoredBy = :authoredBy',
+      ExpressionAttributeValues: {
+          ':authoredBy': userId
+      }
+  }).promise()
 
     /*
     MY PLAN:
@@ -25,7 +32,7 @@ export const handler = middy(
 
     return {
       statusCode: 200,
-      body: JSON.stringify(event)
+      body: JSON.stringify({ todos })
     }
   }
 )
