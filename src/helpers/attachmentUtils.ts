@@ -1,6 +1,6 @@
-import { S3 } from 'aws-sdk'
+import { XAWS } from '../utils/setupAWSXRay'
 
-const s3 = new S3({
+const s3 = new XAWS.S3({
   signatureVersion: 'v4'
 })
 const {

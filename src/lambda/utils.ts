@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
-import { DynamoDB } from 'aws-sdk'
 import { decode as decodeToken } from 'jsonwebtoken'
 
 import { CustomJwtPayload } from '../auth/CustomJwtPayload'
 import { TodoItem } from '../models'
+import { XAWS } from '../utils/setupAWSXRay'
 
 /**
  * @name getUserId
@@ -21,7 +21,7 @@ export function getUserId(event: APIGatewayProxyEvent): string {
   return tokenPayload.sub
 }
 
-const docClient = new DynamoDB.DocumentClient()
+const docClient = new XAWS.DynamoDB.DocumentClient()
 const todosTable = process.env.TODOS_TABLE
 /**
  * @name getTodoForUser
