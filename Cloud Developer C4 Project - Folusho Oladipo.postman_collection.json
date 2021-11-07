@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "TODOs",
+			"name": "Managing todos",
 			"item": [
 				{
 					"name": "Get all todos",
@@ -95,7 +95,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Second todo\",\n\t\"dueDate\": \"2022-09-21\",\n\t\"done\": false\n}"
+							"raw": "{\n\t\"name\": \"First todo\",\n\t\"dueDate\": \"2022-09-21\",\n\t\"done\": false\n}"
 						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/<todoId>",
@@ -167,15 +167,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fileName\": \"<FILE_NAME>\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/<todoId>/attachment",
 							"protocol": "https",
@@ -208,47 +199,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://todone-images-dev.s3.amazonaws.com/google-oauth2%7C101246090953450658349/77542f0a-4a2e-41c9-8ab8-fb21159355dc?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAX2AIZQJFQQ4ZD3P2%2F20211107%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211107T182921Z&X-Amz-Expires=600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAMaCXVzLWVhc3QtMSJHMEUCIQDsGvamun89fNDfnJntUk83nQjZoPWJdGXXb2jxJT0CdwIgX%2BBoQMs6TiogTd9QR8ylMWUqQyqXUTw2NQzVw4LLrzIqqgIIrP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw1MzY4ODkzNjA5NzEiDLDSH5GqJPD50tf6JSr%2BAfYr9DQnzt6epU1I49B4H8WvsQDXm7xCHFbq0oFDv7djLQSTSmolk2vRYrjSFCHtEVS4WvdLn0qYd6QEjxRSnzRgVuxFC%2BAhrs4nLV%2FwSZPArRFBc%2FT1xtuJoWhdIeQI9Dx79K9xBV5BqifrNLJkzxwK7vLI%2FbCm3QCuv1jM%2FbGGvFlDTyHtApV%2FtPy3GCxMTd9%2FZXsh8iIyb%2BGusudW%2BLi2Fq0MzR4KoknsMDKW1n9ZBO%2Fx1ZoUe491ta4i0PFybXzRFOI9bq%2Fbj0onew%2BQmdA47%2B4lBSONcV646M3iPwzhDUkdc3%2FiRUnOsp71Ubvliwe6FKmnzaZGo5cvL0QcMIC2oIwGOpoBcmiMc0woMQ5GVlZB5v9Yt25Fbd4aEA7w1Eb3kl0Karf%2BhR65wx%2F%2FrDShRPNUVsUU8oLl2hjQBMXyRBXXc3GP271jSqImuZhlH0OzedrW0DBG9a6LchYU2HJrQFPrJdcUtFiL0JlYPpljFly5LixetPbwyTAD5jklkGXEJCeSAtOu34Unn31h4nUk1ryPY3Q2kRO%2F8Z%2F9i0nh9g%3D%3D&X-Amz-Signature=1d1635bc242b4e9630d8569e1e59bf79de1a846e5aebdf0b0c8c10f3fd370219&X-Amz-SignedHeaders=host",
-							"protocol": "https",
+							"raw": "<SIGNED_URL_FROM_GET_ATTACHMENT_URL>",
 							"host": [
-								"todone-images-dev",
-								"s3",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"google-oauth2%7C101246090953450658349",
-								"77542f0a-4a2e-41c9-8ab8-fb21159355dc"
-							],
-							"query": [
-								{
-									"key": "X-Amz-Algorithm",
-									"value": "AWS4-HMAC-SHA256"
-								},
-								{
-									"key": "X-Amz-Credential",
-									"value": "ASIAX2AIZQJFQQ4ZD3P2%2F20211107%2Fus-east-1%2Fs3%2Faws4_request"
-								},
-								{
-									"key": "X-Amz-Date",
-									"value": "20211107T182921Z"
-								},
-								{
-									"key": "X-Amz-Expires",
-									"value": "600"
-								},
-								{
-									"key": "X-Amz-Security-Token",
-									"value": "IQoJb3JpZ2luX2VjEAMaCXVzLWVhc3QtMSJHMEUCIQDsGvamun89fNDfnJntUk83nQjZoPWJdGXXb2jxJT0CdwIgX%2BBoQMs6TiogTd9QR8ylMWUqQyqXUTw2NQzVw4LLrzIqqgIIrP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw1MzY4ODkzNjA5NzEiDLDSH5GqJPD50tf6JSr%2BAfYr9DQnzt6epU1I49B4H8WvsQDXm7xCHFbq0oFDv7djLQSTSmolk2vRYrjSFCHtEVS4WvdLn0qYd6QEjxRSnzRgVuxFC%2BAhrs4nLV%2FwSZPArRFBc%2FT1xtuJoWhdIeQI9Dx79K9xBV5BqifrNLJkzxwK7vLI%2FbCm3QCuv1jM%2FbGGvFlDTyHtApV%2FtPy3GCxMTd9%2FZXsh8iIyb%2BGusudW%2BLi2Fq0MzR4KoknsMDKW1n9ZBO%2Fx1ZoUe491ta4i0PFybXzRFOI9bq%2Fbj0onew%2BQmdA47%2B4lBSONcV646M3iPwzhDUkdc3%2FiRUnOsp71Ubvliwe6FKmnzaZGo5cvL0QcMIC2oIwGOpoBcmiMc0woMQ5GVlZB5v9Yt25Fbd4aEA7w1Eb3kl0Karf%2BhR65wx%2F%2FrDShRPNUVsUU8oLl2hjQBMXyRBXXc3GP271jSqImuZhlH0OzedrW0DBG9a6LchYU2HJrQFPrJdcUtFiL0JlYPpljFly5LixetPbwyTAD5jklkGXEJCeSAtOu34Unn31h4nUk1ryPY3Q2kRO%2F8Z%2F9i0nh9g%3D%3D"
-								},
-								{
-									"key": "X-Amz-Signature",
-									"value": "1d1635bc242b4e9630d8569e1e59bf79de1a846e5aebdf0b0c8c10f3fd370219"
-								},
-								{
-									"key": "X-Amz-SignedHeaders",
-									"value": "host"
-								}
+								"<SIGNED_URL_FROM_GET_ATTACHMENT_URL>"
 							]
 						}
 					},
@@ -300,7 +253,7 @@
 	"variable": [
 		{
 			"key": "apiId",
-			"value": "sc5io1n49c"
+			"value": "7b5ylo0j09"
 		},
 		{
 			"key": "authToken",
