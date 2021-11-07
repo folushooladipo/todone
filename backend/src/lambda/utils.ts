@@ -26,15 +26,15 @@ const todosTable = process.env.TODOS_TABLE
 /**
  * @name getTodoForUser
  * @description Retrieves a todo that was created by the specified user.
- * @param {string} authorId - The ID of the user that created the todo.
+ * @param {string} userId - The ID of the user that created the todo.
  * @param {string} todoId - The ID of the todo.
  * @returns {TodoItem | undefined} - returns the todo if found. Else returns undefined.
  */
-export const getTodoForUser = async (authorId: string, todoId: string): Promise<TodoItem | undefined> => {
+export const getTodoForUser = async (userId: string, todoId: string): Promise<TodoItem | undefined> => {
   const result = await docClient.get({
     TableName: todosTable,
     Key: {
-      authorId,
+      userId,
       todoId,
     }
   }).promise()

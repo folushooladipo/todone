@@ -16,9 +16,9 @@ export const handler = middy(
     const { Items: todos } = await docClient.query({
       TableName: todosTable,
       IndexName: createdAtIndex,
-      KeyConditionExpression: 'authorId = :authorId',
+      KeyConditionExpression: 'userId = :userId',
       ExpressionAttributeValues: {
-        ':authorId': userId
+        ':userId': userId
       }
     }).promise()
 

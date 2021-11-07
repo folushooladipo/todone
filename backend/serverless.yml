@@ -119,7 +119,6 @@ functions:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
       - http:
-          # TODO: why is this a POST request? Both the fact that we are using signed URLs for direct upload to S3 AND the function's name indicate that it should be a GET request.
           method: post
           path: todos/{todoId}/attachment
           cors: true
@@ -127,7 +126,6 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          # TODO: verify that this function needs this permission by removing it and seeing what happens.
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.IMAGE_ATTACHMENTS_BUCKET}/*
 
@@ -137,8 +135,7 @@ resources:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:
         ResponseParameters:
-          # TODO: try changing this to `http://localhost:3000, ${CLOUDFRONT_DOMAIN_FOR_FRONTEND_APP}`. If it works, keep it.
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Origin: "'http://localhost:3000'"
           gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
           gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,GET,POST,PATCH'"
         ResponseType: DEFAULT_4XX
@@ -151,13 +148,12 @@ resources:
         TableName: ${self:provider.environment.TODOS_TABLE}
         BillingMode: PAY_PER_REQUEST
         KeySchema:
-          # TODO: rename authorId (and its variants) to userId.
-          - AttributeName: authorId
+          - AttributeName: userId
             KeyType: HASH
           - AttributeName: todoId
             KeyType: RANGE
         AttributeDefinitions:
-          - AttributeName: authorId
+          - AttributeName: userId
             AttributeType: S
           - AttributeName: todoId
             AttributeType: S
@@ -168,7 +164,7 @@ resources:
             Projection:
               ProjectionType: ALL
             KeySchema:
-            - AttributeName: authorId
+            - AttributeName: userId
               KeyType: HASH
             - AttributeName: createdAt
               KeyType: RANGE

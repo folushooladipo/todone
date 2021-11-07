@@ -12,9 +12,9 @@ const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const authorId = getUserId(event)
+    const userId = getUserId(event)
     const todoId = event.pathParameters.todoId
-    const savedTodo = await getTodoForUser(authorId, todoId)
+    const savedTodo = await getTodoForUser(userId, todoId)
     if (!savedTodo) {
       return {
         statusCode: 404,
@@ -27,7 +27,7 @@ export const handler = middy(
     await docClient.delete({
       TableName: todosTable,
       Key: {
-        authorId,
+        userId,
         todoId,
       },
     }).promise()

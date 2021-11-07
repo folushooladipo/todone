@@ -13,12 +13,18 @@ const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const authorId = getUserId(event)
+    const userId = getUserId(event)
     const {name, dueDate} = JSON.parse(event.body)
 
-    // TODO: validate dueDate and name e.g when empty strings are given (and yes, those pass through the request validator).
+    if (!name || !dueDate) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Neither the todo\'s name nor its due date can be empty.' })
+      }
+    }
+
     const item: TodoItem = {
-      authorId,
+      userId,
       todoId: uuidV4(),
       createdAt: new Date().toISOString(),
       name,

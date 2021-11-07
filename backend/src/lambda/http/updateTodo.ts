@@ -13,9 +13,9 @@ const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const authorId = getUserId(event)
+    const userId = getUserId(event)
     const todoId = event.pathParameters.todoId
-    const savedTodo = await getTodoForUser(authorId, todoId)
+    const savedTodo = await getTodoForUser(userId, todoId)
     if (!savedTodo) {
       return {
         statusCode: 404,
@@ -25,10 +25,26 @@ export const handler = middy(
       }
     }
 
-    const todoUpdate: UpdateTodoRequestPayload = JSON.parse(event.body)
+    const {done, dueDate, name}: UpdateTodoRequestPayload = JSON.parse(event.body)
+    if (!name || !dueDate) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Neither the todo\'s name nor its due date can be empty.' })
+      }
+    }
+
+    if (typeof done !== 'boolean') {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'todo.done can only be a boolean value.' })
+      }
+    }
+
     const todo: TodoItem = {
       ...savedTodo,
-      ...todoUpdate,
+      name,
+      dueDate,
+      done,
     }
     await docClient.put({
       TableName: todosTable,
