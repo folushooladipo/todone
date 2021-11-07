@@ -6,7 +6,7 @@ import { DynamoDB } from 'aws-sdk'
 import { v4 as uuidV4 } from 'uuid'
 
 import { getUserId } from '../utils'
-import { TodoItem } from '../../models/TodoItem'
+import { TodoItem } from '../../models'
 
 const docClient = new DynamoDB.DocumentClient()
 const todosTable = process.env.TODOS_TABLE

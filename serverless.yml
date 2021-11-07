@@ -104,7 +104,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:GetItem
-          - dynamodb:UpdateItem
+          - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/${self:provider.environment.TODOS_TABLE}
 
   # TODO: Configure this function
@@ -154,7 +154,7 @@ resources:
           # TODO: try changing this to `http://localhost:3000, ${CLOUDFRONT_DOMAIN_FOR_FRONTEND_APP}`. If it works, keep it.
           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
           gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,GET,POST,PATCH'"
         ResponseType: DEFAULT_4XX
         RestApiId:
           Ref: ApiGatewayRestApi

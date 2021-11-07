@@ -3,26 +3,49 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
+import { DynamoDB } from 'aws-sdk'
 
-// import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-// import { updateTodo } from '../../businessLogic/todos'
-// import { getUserId } from '../utils'
+import { getUserId } from '../utils'
+import { TodoItem, UpdateTodoRequestPayload } from '../../models'
+
+const docClient = new DynamoDB.DocumentClient()
+const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    // const todoId = event.pathParameters.todoId
-    // const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
-    // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
+   const authorId = getUserId(event)
+   const todoId = event.pathParameters.todoId
+    const result = await docClient.get({
+      TableName: todosTable,
+      Key: {
+        authorId,
+        todoId,
+      }
+    }).promise()
+    const savedTodo = result.Item as TodoItem | undefined
 
-    /* MY PLAN:
-    - Try to fetch the todo. If not found, return a 404 saying "Error. Cannot update a todo that has not been created yet."
-    - If it was found BUT the user making the request wasn't the one that created it, return a 403 saying "Error. You cannot update this todo."
-    - Else, update the todo and return the updated result.
-    */
+    if (!savedTodo) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({
+          error: "You cannot update a todo that does not exist.",
+        })
+      }
+    }
+
+    const todoUpdate: UpdateTodoRequestPayload = JSON.parse(event.body)
+    const todo: TodoItem = {
+      ...savedTodo,
+      ...todoUpdate,
+    }
+    await docClient.put({
+      TableName: todosTable,
+      Item: todo,
+    }).promise()
 
     return {
       statusCode: 200,
-      body: JSON.stringify(event)
+      body: JSON.stringify({ item: todo })
     }
   }
 )
