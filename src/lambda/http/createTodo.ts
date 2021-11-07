@@ -16,7 +16,7 @@ export const handler = middy(
     const authorId = getUserId(event)
     const {name, dueDate} = JSON.parse(event.body)
 
-    // TODO: validate dueDate.
+    // TODO: validate dueDate and name e.g when empty strings are given (and yes, those pass through the request validator).
     const item: TodoItem = {
       authorId,
       todoId: uuidV4(),
