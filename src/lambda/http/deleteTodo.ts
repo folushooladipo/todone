@@ -3,11 +3,11 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-import { DynamoDB } from 'aws-sdk'
 
 import { getTodoForUser, getUserId } from '../utils'
+import { getDynamoDBClient } from '../../helpers/todosAcess'
 
-const docClient = new DynamoDB.DocumentClient()
+const docClient = getDynamoDBClient('deleteTodo')
 const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(

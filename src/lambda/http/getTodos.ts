@@ -1,13 +1,13 @@
 import 'source-map-support/register'
 
-import { DynamoDB } from 'aws-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
 import { getUserId } from '../utils'
+import { getDynamoDBClient } from '../../helpers/todosAcess'
 
-const docClient = new DynamoDB.DocumentClient()
+const docClient = getDynamoDBClient('getTodos')
 const todosTable = process.env.TODOS_TABLE
 const createdAtIndex = process.env.TODOS_CREATED_AT_INDEX
 export const handler = middy(

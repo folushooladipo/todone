@@ -1,12 +1,10 @@
-// import * as AWS from 'aws-sdk'
-// import * as AWSXRay from 'aws-xray-sdk'
-// import { DocumentClient } from 'aws-sdk/clients/dynamodb'
-// import { createLogger } from '../utils/logger'
-// import { TodoItem } from '../models/TodoItem'
-// import { TodoUpdate } from '../models/TodoUpdate';
+import { DynamoDB } from 'aws-sdk'
 
-// const XAWS = AWSXRay.captureAWS(AWS)
+import { createLogger } from '../utils/logger'
 
-// const logger = createLogger('TodosAccess')
+const logger = createLogger('TodosAccess')
 
-// TODO: Implement the dataLayer logic
+export const getDynamoDBClient = (callerName: string): DynamoDB.DocumentClient => {
+  logger.info("Creating DB client for:", callerName)
+  return new DynamoDB.DocumentClient()
+}
