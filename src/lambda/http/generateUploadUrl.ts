@@ -4,17 +4,36 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-// import { createAttachmentPresignedUrl } from '../../businessLogic/todos'
-// import { getUserId } from '../utils'
+import { getUploadURLForAttachment } from '../../helpers/attachmentUtils'
+import { createLogger } from '../../utils/logger'
+import { getUserId } from '../utils'
+
+const {
+  SIGNED_URL_EXPIRATION_IN_SECONDS: stringifiedUrlExpiration,
+} = process.env
+
+const urlExpiration = parseInt(stringifiedUrlExpiration, 10)
+const logger = createLogger('generateUploadUrl')
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    // const todoId = event.pathParameters.todoId
-    // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
+    let uploadUrl: string
+    try {
+      const userId = getUserId(event)
+      const todoId = event.pathParameters.todoId
+      const fileName = `${userId}/${todoId}`
+      uploadUrl = getUploadURLForAttachment(fileName, urlExpiration)
+    } catch (err) {
+      logger.error('Failed to generate signed URL because of this error:', err)
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to generate signed URL.' })
+      }
+    }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(event)
+      body: JSON.stringify({ uploadUrl })
     }
   }
 )

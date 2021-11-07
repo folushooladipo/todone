@@ -25,7 +25,7 @@ provider:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     IMAGE_ATTACHMENTS_BUCKET: todone-images-${self:provider.stage}
-    SIGNED_URL_EXPIRATION: 300
+    SIGNED_URL_EXPIRATION_IN_SECONDS: 600
 
   logs:
     # Enable API Gateway logs
@@ -180,16 +180,14 @@ resources:
         CorsConfiguration:
           CorsRules:
             -
-              # TODO: try changing this to `http://localhost:3000, ${CLOUDFRONT_DOMAIN_FOR_FRONTEND_APP}`. If it works, keep it.
               AllowedOrigins:
-                - '*'
+                - 'http://localhost:3000'
               AllowedHeaders:
                 - '*'
               AllowedMethods:
                 - GET
                 - POST
-                # TODO: I don't think I need this method. Remove it and see what happens. Maybe I need OPTIONS instead.
-                - HEAD
+                - PUT
               MaxAge: 3000
 
     PolicyForAttachmentsBucket:
@@ -205,3 +203,12 @@ resources:
               Effect: Allow
               Action: 's3:GetObject'
               Resource: 'arn:aws:s3:::${self:provider.environment.IMAGE_ATTACHMENTS_BUCKET}/*'
+            - Sid: AllowPutObjectFromSpecificDomain
+              Principal: '*'
+              Effect: Allow
+              Action: 's3:PutObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGE_ATTACHMENTS_BUCKET}/*'
+              Condition:
+                StringLike:
+                  aws:Referer:
+                    - 'http://localhost:3000/*'
