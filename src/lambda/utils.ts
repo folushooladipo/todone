@@ -1,7 +1,9 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
+import { DynamoDB } from 'aws-sdk'
 import { decode as decodeToken } from 'jsonwebtoken'
 
 import { CustomJwtPayload } from '../auth/CustomJwtPayload'
+import { TodoItem } from '../models'
 
 /**
  * @name getUserId
@@ -17,4 +19,25 @@ export function getUserId(event: APIGatewayProxyEvent): string {
   const tokenPayload = decodeToken(jwtToken) as CustomJwtPayload
 
   return tokenPayload.sub
+}
+
+const docClient = new DynamoDB.DocumentClient()
+const todosTable = process.env.TODOS_TABLE
+/**
+ * @name getTodoForUser
+ * @description Retrieves a todo that was created by the specified user.
+ * @param {string} authorId - The ID of the user that created the todo.
+ * @param {string} todoId - The ID of the todo.
+ * @returns {TodoItem | undefined} - returns the todo if found. Else returns undefined.
+ */
+export const getTodoForUser = async (authorId: string, todoId: string): Promise<TodoItem | undefined> => {
+  const result = await docClient.get({
+    TableName: todosTable,
+    Key: {
+      authorId,
+      todoId,
+    }
+  }).promise()
+  
+  return result.Item as TodoItem | undefined
 }

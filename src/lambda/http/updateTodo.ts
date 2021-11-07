@@ -5,7 +5,7 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 import { DynamoDB } from 'aws-sdk'
 
-import { getUserId } from '../utils'
+import { getTodoForUser, getUserId } from '../utils'
 import { TodoItem, UpdateTodoRequestPayload } from '../../models'
 
 const docClient = new DynamoDB.DocumentClient()
@@ -13,22 +13,14 @@ const todosTable = process.env.TODOS_TABLE
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-   const authorId = getUserId(event)
-   const todoId = event.pathParameters.todoId
-    const result = await docClient.get({
-      TableName: todosTable,
-      Key: {
-        authorId,
-        todoId,
-      }
-    }).promise()
-    const savedTodo = result.Item as TodoItem | undefined
-
+    const authorId = getUserId(event)
+    const todoId = event.pathParameters.todoId
+    const savedTodo = await getTodoForUser(authorId, todoId)
     if (!savedTodo) {
       return {
         statusCode: 404,
         body: JSON.stringify({
-          error: "You cannot update a todo that does not exist.",
+          error: "Update failed: todo does not exist.",
         })
       }
     }
