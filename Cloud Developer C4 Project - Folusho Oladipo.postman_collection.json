@@ -206,6 +206,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update attachment URL",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"todoId\": \"<TODO_ID>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/update-attachment-url",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"update-attachment-url"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -257,7 +296,7 @@
 		},
 		{
 			"key": "authToken",
-			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNrQnhjVWswMUhRUnNmd3pBYXVMMiJ9.eyJpc3MiOiJodHRwczovL2Rldi01bHE1M2hxbS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDEyNDYwOTA5NTM0NTA2NTgzNDkiLCJhdWQiOiJrS2lmYU5DUzhIb0twc0x2bHBGVHJESHRjNFZjT1I5NyIsImlhdCI6MTYzNjI5MTcyMCwiZXhwIjoxNjM2MzI3NzIwLCJhdF9oYXNoIjoiSFBvVGExcFNrbnFNd1MtTnZYUmc3QSIsIm5vbmNlIjoicW9kWmV-VjFsRXBPRWtSa3pVWXVnT0luOHl5bU5SdUwifQ.Axii6N5dfyKjYrwi38mvrU-rXn6mDDJnCtAC34ZT_QD9x_gP-TU8JamW98TYvxZ-DRF57KTRuij_QLqe4KNHoP-lf5fwYDTUVvsiqv5RE9HGmiPEsQW7Oe9t43iVcDX6RMMR7we_509JSqIFGVXgwx1gNUzJvEx37NOk0zdCgiufCEiiSuwFYkWZLm4yy0dHHAp5fqpd2IgPyX9_Oe_53lOf-pVF733g0PxQWYcmk5mJyAjl7YNgrsAbu0xsVstNomEl8Vk3TIn8uE6QAXG7YnjNsqVynUD3x5D9_RQkmlh9oN9JcwJqdCfD1sRnwgM9Fuv7q7Xe8kcGUlt_NZxuTQ"
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNrQnhjVWswMUhRUnNmd3pBYXVMMiJ9.eyJpc3MiOiJodHRwczovL2Rldi01bHE1M2hxbS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDEyNDYwOTA5NTM0NTA2NTgzNDkiLCJhdWQiOiJrS2lmYU5DUzhIb0twc0x2bHBGVHJESHRjNFZjT1I5NyIsImlhdCI6MTYzNjM3NjM5OCwiZXhwIjoxNjM2NDEyMzk4LCJhdF9oYXNoIjoiRmpkeTl4aEtNVDM5NTZpamtrMjdBdyIsIm5vbmNlIjoiMXN0a3ZSTloueV9YcnNoNENjU19BQ1EwdGJkQVpFVTAifQ.dqfvBv9mfWv-M_nhGYjHfBdpPsViLjApo76jL_RB6jIewt97fm65szhB6WFG6XN29plt4V3HKMsgGM6MjtcpLQ1ddJKzZJa_dJUy99FQN_fEZLOncZbR1RXoky1kw5xwP0QtVEQ9pMgkaaRF10rL3WendFgKp_HlTGpmmTjwbvT9K0fLkCnzycz2Qa4UeRy_GzG2EF762tv26vyLcbWhhb87nqthmR2f0D8mUUPn3FydqtNzekKWeiIxB0iYAF6_6PEmucRUzs83aVX8N2f7mO9sD95NJ85yzmjhY4H5aL-vuQhJlN7MED_33rt4rairQgTUZI_SIZWGHUZh4YkQ6g"
 		}
 	]
 }
