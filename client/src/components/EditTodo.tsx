@@ -90,7 +90,7 @@ export class EditTodo extends React.PureComponent<
             <label>File</label>
             <input
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg"
               placeholder="Image to upload"
               onChange={this.handleFileChange}
             />
