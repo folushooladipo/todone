@@ -95,7 +95,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"First todo\",\n\t\"dueDate\": \"2022-09-21\",\n\t\"done\": false\n}"
+							"raw": "{\n\t\"name\": \"Latest todo\",\n\t\"dueDate\": \"2022-09-21\",\n\t\"done\": false\n}"
 						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/<todoId>",
@@ -167,6 +167,15 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fileName\": \"<File name that ends with .png or .jpg.>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/<todoId>/attachment",
 							"protocol": "https",
@@ -220,7 +229,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"todoId\": \"<TODO_ID>\"\n}",
+							"raw": "{\n    \"todoId\": \"<TODO_ID>\",\n    \"fileName\": \"<File name used when uploading the attachment to AWS S3 and which ends with .png or .jpg.>\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
