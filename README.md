@@ -11,3 +11,4 @@ yarn
 - My choices about the parts of my composite key rendered the `backend/src/helpers/todos.ts` file obsolete, so I deleted it.
 - Unlike I did for `backend/src/lambda/http/updateTodo.ts` and `backend/src/lambda/http/deleteTodo.ts`, I didn't check for a todo's existence before generating an upload URL for its attachment in `backend/src/lambda/http/generateUploadUrl.ts`. This was because I decided that it would be cheaper and more secure to restrict where the attachments bucket accepted uploads from than to be querying the database every time someone asks for an upload URL.
 - I modified the "Upload" input section on the frontend to only allow JPG and PNG images.
+- I added a new endpoint called `PATCH /{stage e.g dev}/todos/update-attachment-url` that the client can use to update the attachment URL of a todo. It is meant to be called only an attachment has been successfully uploaded to S3.
