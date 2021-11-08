@@ -57,11 +57,12 @@ export async function deleteTodo(
 
 export async function getUploadUrl(
   idToken: string,
-  todoId: string
+  todoId: string,
+  fileName: string
 ): Promise<string> {
   const response = await Axios.post(
     `${apiEndpoint}/todos/${todoId}/attachment`,
-    '',
+    { fileName },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -76,10 +77,17 @@ export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void>
   await Axios.put(uploadUrl, file)
 }
 
-export async function updateAttachmentUrl(idToken: string, todoId: string): Promise<void> {
+export async function updateAttachmentUrl(
+  idToken: string,
+  todoId: string,
+  fileName: string
+): Promise<void> {
   await Axios.patch(
     `${apiEndpoint}/todos/update-attachment-url`,
-    { todoId },
+    {
+      todoId,
+      fileName
+    },
     {
       headers: {
         'Content-Type': 'application/json',

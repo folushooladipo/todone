@@ -123,6 +123,9 @@ functions:
           path: todos/{todoId}/attachment
           cors: true
           authorizer: Auth
+          request:
+            schemas:
+              application/json: ${file(models/generate-upload-url-model.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:

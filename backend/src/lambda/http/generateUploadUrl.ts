@@ -6,7 +6,7 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { getUploadURLForAttachment } from '../../helpers/attachmentUtils'
 import { createLogger } from '../../utils/logger'
-import { getUserId } from '../utils'
+import { getAttachmentPathInS3, getUserId } from '../utils'
 
 const {
   SIGNED_URL_EXPIRATION_IN_SECONDS: stringifiedUrlExpiration,
@@ -21,8 +21,9 @@ export const handler = middy(
     try {
       const userId = getUserId(event)
       const todoId = event.pathParameters.todoId
-      const fileName = `${userId}/${todoId}`
-      uploadUrl = getUploadURLForAttachment(fileName, urlExpiration)
+      const fileName: string = JSON.parse(event.body).fileName
+      const attachmentPath = getAttachmentPathInS3(userId, todoId, fileName)
+      uploadUrl = getUploadURLForAttachment(attachmentPath, urlExpiration)
     } catch (err) {
       logger.error('Failed to generate signed URL because of this error:', err)
       return {

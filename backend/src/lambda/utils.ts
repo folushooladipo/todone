@@ -41,3 +41,15 @@ export const getTodoForUser = async (userId: string, todoId: string): Promise<To
   
   return result.Item as TodoItem | undefined
 }
+
+/**
+ * @name getAttachmentPathInS3
+ * @description Constructs a path to which an attachment will be stored in AWS S3.
+ * @param {string} userId - the ID of the user that created the todo that this attachment is for.
+ * @param {string} todoId - the ID of the todo.
+ * @param {string} fileName - a name for the file e.g example.jpg.
+ * @returns {string} - a path in AWS S3 where the attachment will be stored.
+ */
+export const getAttachmentPathInS3 = (userId: string, todoId: string, fileName: string): string => {
+  return `${userId}/${todoId}___${fileName}`
+}

@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { getTodoForUser, getUserId } from '../utils'
+import { getAttachmentPathInS3, getTodoForUser, getUserId } from '../utils'
 import { TodoItem } from '../../models'
 import { getDynamoDBClient } from '../../helpers/todosAcess'
 
@@ -14,14 +14,7 @@ const attachmentsBucket = process.env.IMAGE_ATTACHMENTS_BUCKET
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const { todoId } = JSON.parse(event.body)
-    if (!todoId) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'You need to specify the ID of the todo you want to update.' })
-      }
-    }
-
+    const { fileName, todoId } = JSON.parse(event.body)
     const userId = getUserId(event)
     const savedTodo = await getTodoForUser(userId, todoId)
     if (!savedTodo) {
@@ -32,8 +25,9 @@ export const handler = middy(
         })
       }
     }
-
-    const attachmentUrl = `https://${attachmentsBucket}.s3.amazonaws.com/${userId}/${todoId}`
+    
+    const attachmentPath = getAttachmentPathInS3(userId, todoId, fileName)
+    const attachmentUrl = `https://${attachmentsBucket}.s3.amazonaws.com/${attachmentPath}`
     const todo: TodoItem = {
       ...savedTodo,
       attachmentUrl,

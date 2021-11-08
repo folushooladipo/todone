@@ -3,10 +3,6 @@
   "title": "group",
   "type": "object",
   "properties": {
-    "todoId": {
-      "type": "string",
-      "minLength": 1
-    },
     "fileName": {
       "type": "string",
       "minLength": 5,
@@ -14,7 +10,6 @@
     }
   },
   "required": [
-    "todoId",
     "fileName"
   ],
   "additionalProperties": false
