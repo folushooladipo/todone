@@ -26,20 +26,6 @@ export const handler = middy(
     }
 
     const {done, dueDate, name}: UpdateTodoRequestPayload = JSON.parse(event.body)
-    if (!name || !dueDate) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Neither the todo\'s name nor its due date can be empty.' })
-      }
-    }
-
-    if (typeof done !== 'boolean') {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'todo.done can only be a boolean value.' })
-      }
-    }
-
     const todo: TodoItem = {
       ...savedTodo,
       name,

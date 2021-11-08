@@ -16,13 +16,6 @@ export const handler = middy(
     const userId = getUserId(event)
     const {name, dueDate} = JSON.parse(event.body)
 
-    if (!name || !dueDate) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Neither the todo\'s name nor its due date can be empty.' })
-      }
-    }
-
     const item: TodoItem = {
       userId,
       todoId: uuidV4(),
