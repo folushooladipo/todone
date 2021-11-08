@@ -129,6 +129,24 @@ functions:
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.IMAGE_ATTACHMENTS_BUCKET}/*
 
+  UpdateAttachmentUrl:
+    handler: src/lambda/http/updateAttachmentUrl.handler
+    events:
+      - http:
+          method: patch
+          path: todos/update-attachment-url
+          cors: true
+          authorizer: Auth
+          request:
+            schemas:
+              application/json: ${file(models/update-attachment-url-model.json)}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/${self:provider.environment.TODOS_TABLE}
+
 resources:
   Resources:
     GatewayResponseDefault4XX:
